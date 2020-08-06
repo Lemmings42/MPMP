@@ -1,17 +1,24 @@
-int n = 1 ;
+int n = 1;
 float w;
-float margin = 5;
+float margin = 2;
+int gifFrameDigits = 2;
 float i = 0;
+int frames = 0;
 boolean animated = true;
+boolean saveGif = false;
 JSONArray jsonData;
 ArrayList<ArrayList<PVector>> results = new ArrayList<ArrayList<PVector>>(0);
 void setup(){
   size(800, 800, P2D);
   background(51);
-  //frameRate(1);
+  if (!saveGif){
+    frameRate(10);
+  }
   results.add(new ArrayList<PVector>(0));
   noStroke();
   fill(255, 100, 150);
+  textSize(36);
+  textAlign(LEFT, TOP);
   if (!animated){
     noLoop();
     jsonData = new JSONArray();
@@ -46,14 +53,30 @@ void draw(){
     results.get(results.size()-1).add(new PVector(i, n/i));
     float a = (i>n/i)?i:n/i;
     w = ((float) width-((1+a)*margin))/a;
+    fill(255, 100, 150);
     for(int j = 0; j < i; j++){
       for(int k = 0; k < n/i; k++){
         square(margin*(j+1)+j*w, margin*(k+1)+k*w, w);
       }
     }
+    
+    fill(255);
+    text("n: "+str(n), margin*2, margin*2);
+    if (saveGif){
+      save("out/gif-"+nf(frames, gifFrameDigits)+".png");
+    }
+    frames++;
+    if (frames % 50 == 0){
+      println(frames);
+    }
+    if (frames == pow(10, gifFrameDigits)-1){
+      exit();
+    }
+  }else{
+    fill(255);
+    text("n: "+str(n)+"; "+str(i)+"x"+str(n/i), margin*2, margin*2);
   }
   if (i > n){
-    println(n, results.get(results.size()-1).size());
     i = 0;
     if (results.get(results.size()-1).size() == 64){
       println(n);
@@ -61,6 +84,5 @@ void draw(){
     results.add(new ArrayList<PVector>(0));
     n++;
   }
-  
   i++;
 }
