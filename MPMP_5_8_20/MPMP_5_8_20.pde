@@ -61,7 +61,7 @@ void draw(){
     }
     
     fill(255);
-    text("n: "+str(n), margin*2, margin*2);
+    text("n: "+str(n)+"; "+str((int)i)+"x"+str((int)(n/i)), margin*2, margin*2);
     if (saveGif){
       save("out/gif-"+nf(frames, gifFrameDigits)+".png");
     }
@@ -74,7 +74,7 @@ void draw(){
     }
   }else{
     fill(255);
-    text("n: "+str(n)+"; "+str(i)+"x"+str(n/i), margin*2, margin*2);
+    text("n: "+str(n), margin*2, margin*2);
   }
   if (i > n){
     i = 0;
